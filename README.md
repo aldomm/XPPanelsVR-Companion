@@ -9,9 +9,12 @@ application source code. XPPanelsVR for Apple Vision Pro is a separate product.
 
 ## Current Preview
 
-**0.1.1, build 2**. macOS 15+, universal arm64/x86_64 binary. Intel runtime is
-not yet qualified. The installer is unsigned; the app/plugin are ad-hoc signed.
-**Not Developer ID signed. Not notarized by Apple. Not a commercial release.**
+**0.1.2, build 3**. macOS 15+, universal arm64/x86_64 binary. Intel runtime is
+not yet qualified. App, plugin and installer are Developer ID signed. Apple accepted
+the package for notarization; its ticket is stapled and Gatekeeper verification passed.
+**Still a testing preview, not App Store approval or a commercially cleared release.**
+Live installation/streaming with the signed build and clean-Mac qualification remain
+outstanding. Permissions may need reapproval when updating a differently signed build.
 
 Use only on a trusted private LAN. Video and simulator UDP are not encrypted,
 and IP-address approval is not secure pairing. Never forward ports to the internet.
