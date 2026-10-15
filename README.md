@@ -37,3 +37,30 @@ Entertainment only, not real aviation or certified training. Independent of Appl
 Laminar Research and ToLiss. Simulator, aircraft and headset app licences are separate.
 
 Support: [aldoapps@gmail.com](mailto:aldoapps@gmail.com).
+
+## Download Statistics
+
+The download section reads GitHub's public release API and shows the total across
+published `XPPanelsVR-Companion-*.pkg` assets and the version linked on this page.
+Drafts, checksums, JSON metadata and source archives are excluded. These are download
+events, including repeat downloads and tests, not unique people or installations.
+Deleting/replacing assets or retiring releases can reduce the current public total.
+Do not subtract totals blindly when comparing reports; compare stable asset IDs and
+flag missing assets, replaced assets or reduced counts as a reporting discontinuity.
+
+The request is unauthenticated, paginated and time-bounded. Rate limits or failures
+show Unavailable, not a misleading zero. No download requests, visitor tracking,
+cookies or browser storage are added. When updating the download button, also update
+the `data-release` attribute to the exact public release tag.
+
+Offline checks: `node --test tests/download-stats.test.cjs`.
+Fetch a JSON snapshot without downloading any installer:
+
+```sh
+node -e 'require("./download-stats.js").loadStats().then(s => console.log(JSON.stringify(s, null, 2))).catch(e => { console.error(e.message); process.exitCode = 1; })'
+```
+
+The publisher's weekly email is a separate, private Codex scheduled task, not a
+website visitor subscription or a GitHub Actions email service. It needs the local
+Mac awake, Codex running and its Gmail connection available. Recipient and report
+history are not stored in this public repository.
