@@ -9,3 +9,5 @@
 .download-counts dt{margin:0 0 5px;font-size:12px;color:var(--muted)}
 .download-counts dd{min-height:34px;font-size:22px;line-height:1.5;font-weight:650;font-variant-numeric:tabular-nums;color:var(--ink);overflow-wrap:anywhere}
 .download-stats p{font-size:12px;color:var(--muted);line-height:1.6;margin:10px 0 0}
+.release-assurance{border-left:3px solid var(--accent);display:flex;align-items:flex-start;gap:14px;padding:3px 0 3px 18px;margin-bottom:24px}
+.release-assurance>img{flex:none}.release-assurance strong{font-size:15px}.release-assurance p{font-size:14px;margin:8px 0 0;color:#444a4d}

@@ -4,20 +4,22 @@
 [Setup guide](https://aldomm.github.io/XPPanelsVR-Companion/Help.html) |
 [Releases](https://github.com/aldomm/XPPanelsVR-Companion/releases)
 
-This repository publishes the website and binary **testing previews**, not the
-application source code. XPPanelsVR for Apple Vision Pro is a separate product.
+This repository publishes the official Mac Companion installer and website, not the
+application source code. Companion supplies live instrument and Outside View streaming
+for XPPanelsVR, available separately on the Apple Vision Pro App Store.
 
-## Current Preview
+## Current Mac Installer
 
 **0.1.2, build 3**. macOS 15+, universal arm64/x86_64 binary. Intel runtime is
 not yet qualified. App, plugin and installer are Developer ID signed. Apple accepted
 the package for notarization; its ticket is stapled and Gatekeeper verification passed.
-**Still a testing preview, not App Store approval or a commercially cleared release.**
-Live installation/streaming with the signed build and clean-Mac qualification remain
-outstanding. Permissions may need reapproval when updating a differently signed build.
+The Mac Companion is directly distributed by AldoApps; the Vision Pro app has its own
+App Store approval. Permissions may need reapproval when updating a differently signed build.
 
-Use only on a trusted private LAN. Video and simulator UDP are not encrypted,
-and IP-address approval is not secure pairing. Never forward ports to the internet.
+Video travels directly between the Mac and headset on a trusted private network.
+The local protocols do not add transport encryption and address approval is not
+cryptographic pairing. Use devices you trust, protect Wi-Fi access, avoid shared/public
+networks and do not forward simulator or streaming ports to the internet.
 
 Companion includes Display Bridge, hardware outside-video encoding, an optional
 virtual ultrawide monitor, a control preview, and the XPPanelsBridge installer.
@@ -31,7 +33,11 @@ After updating Companion, quit X-Plane and choose **Install / Update Plugin** in
 Setup. Updating the Mac app alone does not update the simulator plugin.
 
 SHA-256 checksums and JSON metadata accompany every package. Read the guide and
-preview terms before installation. No Windows Companion installer is supplied here.
+Companion terms before installation. No Windows Companion installer is supplied here.
+
+The original release tag, installer filename and bundled documents retain the
+`-preview` designation. The October 15 website revision does not replace or re-sign
+that package. Existing checksums, download URLs and download statistics are preserved.
 
 Entertainment only, not real aviation or certified training. Independent of Apple,
 Laminar Research and ToLiss. Simulator, aircraft and headset app licences are separate.
