@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "product": "XPPanels Vision Pro Companion",
+  "platform": "Windows 11 x64",
+  "version": "0.3.1-preview.1",
+  "date": "2026-11-02",
+  "releaseTag": "windows-v0.3.1-preview.1",
+  "releaseUrl": "https://github.com/aldomm/XPPanelsVR-Companion/releases/tag/windows-v0.3.1-preview.1",
+  "installer": {
+    "file": "XPPanelsVisionProCompanion-0.3.1-preview.1-windows-x64-SELF-SIGNED.exe",
+    "bytes": 20972840,
+    "sha256": "bc56f5ae4bf0a00fa10f59505b91bfb8c4245a734c2bebcbfb6bd89e6e58d6fe",
+    "url": "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v0.3.1-preview.1/XPPanelsVisionProCompanion-0.3.1-preview.1-windows-x64-SELF-SIGNED.exe"
+  },
+  "packageSha256": "6de678aa8697b04ad80c02ef91e8f2e94a5f1321bfab5be766d175726e8b9ba7",
+  "payloadFiles": 2074,
+  "signing": {
+    "type": "Self-signed; not automatically trusted by Windows",
+    "subject": "CN=AldoApps XPPanels Preview",
+    "certificateThumbprintSHA1": "CE931B5D11F60F1C4CD10247FF077EB6575983DE",
+    "timestamped": true,
+    "trustStoreImportRequired": false,
+    "caTrusted": false
+  },
+  "plugin": {
+    "name": "XPPanelsVisionProBridge",
+    "port": 49002,
+    "signature": "com.xppanels.visionpro.bridge",
+    "sha256": "c45453d5db8cb34c4e974441fd334bb28c45cd0711736860a056492617412382",
+    "crt": "statically linked; no separate VC++ installer"
+  },
+  "media": {
+    "tcp": 49200,
+    "nativeLoopbackTcp": 49210,
+    "standardVideo": "H.264 720p/1080p/1440p at 30 fps"
+  },
+  "experimental": {
+    "included": true,
+    "optIn": true,
+    "signalingTcp": 55010,
+    "nativeStereoPortRefused": 55000,
+    "runtime": "CloudXR 6.2.3",
+    "manager": "Stream Manager 6.1.0",
+    "runtimeScope": "app-private",
+    "systemRuntimeChange": false,
+    "virtualAudioDriver": false,
+    "requiresCompatibleNvidiaHardware": true,
+    "fixedGeometry": "11.6 metres / 160 degrees; no live arbitrary seat geometry synchronization"
+  },
+  "tests": {
+    "python": 84,
+    "pluginSuites": 3,
+    "sessionIsolation": 3,
+    "installerLifecycle": "passed in disposable root",
+    "foveatedSetupUI": "startup/close passed; no runtime started",
+    "signedPayloadHashes": "all match",
+    "codeSectionPreservation": "capture/launcher/curved host/scene unchanged by signing",
+    "coreNativeEvidence": "8 native synthetic media suites passed on October 31; unchanged capture code",
+    "websiteDownloadStatisticsTests": 8,
+    "staticImportInventory": {
+      "peFilesInspected": 118,
+      "unresolvedNonOSImports": {},
+      "specialPrerequisites": [
+        "XPLM_64.dll supplied by licensed X-Plane",
+        "NVIDIA driver supplied by GPU vendor"
+      ],
+      "limit": "Static import inventory only; dynamic driver/runtime and clean-machine operation require manual qualification"
+    }
+  },
+  "unverified": [
+    "Current production headset inputs and radio/transponder/ISCS/audio acceptance",
+    "New static-CRT plugin loading inside X-Plane",
+    "Clean-machine install on other PCs/GPUs",
+    "Sustained Wi-Fi/foveated latency, image quality and arbitrary geometry matching"
+  ],
+  "dependencies": {
+    "schemaVersion": 1,
+    "product": "visionpro",
+    "version": "0.3.1-preview.1",
+    "included": [
+      "Private Python/Tcl/Tk runtime",
+      "Windows native capture/media bridge",
+      "XPPanelsVisionProBridge (static CRT)",
+      "Experimental curved sender",
+      "CloudXR Runtime 6.2.3 runtime portions",
+      "Stream Manager 6.1.0 runtime portions",
+      "App-local Microsoft VC143 runtime DLLs for the experimental sender",
+      "OpenXR loader and managed runtime dependencies",
+      "Offline guide and component licence notices"
+    ],
+    "suppliedByUser": [
+      "Windows 11 x64 with media components and .NET Framework",
+      "GPU drivers",
+      "Licensed X-Plane 12",
+      "Licensed compatible ToLiss aircraft",
+      "XPPanelsVR on Apple Vision Pro",
+      "Private Wi-Fi network",
+      "Physical joystick as required by aircraft"
+    ],
+    "experimental": {
+      "requiredHardware": "Compatible NVIDIA GPU/driver",
+      "sessionPort": 55010,
+      "nativePortRefused": 55000,
+      "enabledByDefault": false,
+      "geometry": "11.6 metres / 160 degrees, fixed sender geometry",
+      "globalRuntimeChanges": false,
+      "systemServices": false,
+      "audioDriver": false,
+      "microphoneStreaming": false
+    },
+    "questFiles": false,
+    "settingsOrPairingTokensIncluded": false,
+    "SDKHeadersOrDeveloperTools": false
+  },
+  "support": "aldoapps@gmail.com",
+  "questProductUnchanged": true,
+  "macDownloadUnchanged": true
+}
