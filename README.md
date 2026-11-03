@@ -102,3 +102,13 @@ The publisher's weekly email is a separate, private Codex scheduled task, not a
 website visitor subscription or a GitHub Actions email service. It needs the local
 Mac awake, Codex running and its Gmail connection available. Recipient and report
 history are not stored in this public repository.
+
+## Windows updates and retained downloads
+
+`windows-updates.json` is the Companion's one-shot/manual website update feed.
+It lists only the Windows installer actually offered on this site, independently
+from Mac releases. Never advance it for an unpublished test build.
+Keep prior public release assets immutable and retain links and honest headset
+compatibility notes in `Windows-Releases.html` when changing the latest download.
+No headset heartbeat or headset app version report is required.
+Windows 2.0 remains held; the submitted App Store app is unchanged.
