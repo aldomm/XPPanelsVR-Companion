@@ -10,11 +10,20 @@ for XPPanelsVR, available separately on the Apple Vision Pro App Store.
 
 ## Current Mac Installer
 
-**0.1.2, build 3**. macOS 15+, universal arm64/x86_64 binary. Intel runtime is
+**2.0, build 3**. macOS 15+, universal arm64/x86_64 binary. Intel runtime is
 not yet qualified. App, plugin and installer are Developer ID signed. Apple accepted
 the package for notarization; its ticket is stapled and Gatekeeper verification passed.
 The Mac Companion is directly distributed by AldoApps; the Vision Pro app has its own
 App Store approval. Permissions may need reapproval when updating a differently signed build.
+
+The matching headset 2.0 (3) has been uploaded but is not yet publicly released.
+This Mac package retains its bundled preview terms and qualification notices;
+notarization does not complete clean-Mac, Intel or sustained headset qualification.
+The unchanged [0.1.2 installer](https://github.com/aldomm/XPPanelsVR-Companion/releases/tag/v0.1.2-preview)
+remains available for the earlier headset version and as a rollback option.
+Version 2.0 includes the product-specific uninstaller, ISCS preparation/input,
+optional X-Plane audio and the updated hand-flight plugin. Install / Update Plugin
+with X-Plane closed; an application update alone does not replace that plugin.
 
 Video travels directly between the Mac and headset on a trusted private network.
 The local protocols do not add transport encryption and address approval is not
@@ -56,11 +65,11 @@ automatically. Use Companion's guarded plugin Install / Update with X-Plane clos
 Quest remains a separate product. [Windows guide](Windows-Help.html),
 [release metadata](windows-release.json), and the `windows-v0.3.1-preview.1` release
 describe hashes, included dependencies, offline evidence and unverified live checks.
-The earlier Mac download, checksum, notarization claims and statistics remain unchanged.
+Windows assets and version are unchanged by the Mac 2.0 (3) publication.
 
-The original release tag, installer filename and bundled documents retain the
-`-preview` designation. The October 15 website revision does not replace or re-sign
-that package. Existing checksums, download URLs and download statistics are preserved.
+Both Mac packages retain their `-preview` filenames and bundled notices. The 0.1.2
+assets, checksums and download history are preserved. The new package has its own
+release tag `mac-v2.0-build3`, checksums and notarization evidence.
 
 Entertainment only, not real aviation or certified training. Independent of Apple,
 Laminar Research and ToLiss. Simulator, aircraft and headset app licences are separate.
