@@ -3,11 +3,11 @@
   "product": "XPPanels Vision Pro Companion",
   "platform": "windows-x64",
   "latest": {
-    "version": "0.3.1-preview.1",
+    "version": "2.0.0-build.4",
     "published": true,
-    "channel": "preview",
+    "channel": "release",
     "downloadPage": "https://aldomm.github.io/XPPanelsVR-Companion/#windows-download",
-    "releaseUrl": "https://github.com/aldomm/XPPanelsVR-Companion/releases/tag/windows-v0.3.1-preview.1",
-    "compatibility": "Preview receiver compatibility; see Windows guide. Headset version is not detected."
+    "releaseUrl": "https://github.com/aldomm/XPPanelsVR-Companion/releases/tag/windows-v2.0-build4",
+    "compatibility": "For XPPanelsVR 2.0 on Vision Pro; headset app version is not detected. See release notes and archived installers for older versions."
   }
 }

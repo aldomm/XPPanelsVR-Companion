@@ -16,7 +16,7 @@ the package for notarization; its ticket is stapled and Gatekeeper verification 
 The Mac Companion is directly distributed by AldoApps; the Vision Pro app has its own
 App Store approval. Permissions may need reapproval when updating a differently signed build.
 
-The matching headset 2.0 (3) has been uploaded but is not yet publicly released.
+The matching headset 2.0 is now available on the App Store.
 This Mac package retains its bundled preview terms and qualification notices;
 notarization does not complete clean-Mac, Intel or sustained headset qualification.
 The unchanged [0.1.2 installer](https://github.com/aldomm/XPPanelsVR-Companion/releases/tag/v0.1.2-preview)
@@ -42,11 +42,11 @@ After updating Companion, quit X-Plane and choose **Install / Update Plugin** in
 Setup. Updating the Mac app alone does not update the simulator plugin.
 
 SHA-256 checksums and JSON metadata accompany every package. Read the guide and
-Companion terms before installation. Windows uses the separate preview below.
+Companion terms before installation. Windows uses its separate installer below.
 
 ## Windows full installer
 
-**0.3.1-preview.1**, Windows 11 x64, free self-signed testing preview. The publisher
+**2.0 (4)** (`2.0.0-build.4`), Windows 11 x64, AldoApps self-signed installer. The publisher
 is not automatically trusted by Windows. Keep OS security enabled; the public
 certificate is provided for inspection, without requiring a trust-store import.
 
@@ -63,9 +63,9 @@ Native stereo 55000 and native UDP receiver routing are not qualified here.
 Installer never launches the simulator/sharing or installs a simulator plugin
 automatically. Use Companion's guarded plugin Install / Update with X-Plane closed.
 Quest remains a separate product. [Windows guide](Windows-Help.html),
-[release metadata](windows-release.json), and the `windows-v0.3.1-preview.1` release
+[release metadata](windows-release.json), and the `windows-v2.0-build4` release
 describe hashes, included dependencies, offline evidence and unverified live checks.
-Windows assets and version are unchanged by the Mac 2.0 (3) publication.
+The older Windows 0.3.1 preview remains in [the archive](Windows-Releases.html). Capture/control build 3 is included in Companion build 4.
 
 Both Mac packages retain their `-preview` filenames and bundled notices. The 0.1.2
 assets, checksums and download history are preserved. The new package has its own
@@ -111,4 +111,4 @@ from Mac releases. Never advance it for an unpublished test build.
 Keep prior public release assets immutable and retain links and honest headset
 compatibility notes in `Windows-Releases.html` when changing the latest download.
 No headset heartbeat or headset app version report is required.
-Windows 2.0 remains held; the submitted App Store app is unchanged.
+Windows 2.0 publication was authorized after the headset 2.0 App Store release. No headset heartbeat or receiver rebuild is required.

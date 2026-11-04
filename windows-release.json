@@ -2,31 +2,46 @@
   "schemaVersion": 1,
   "product": "XPPanels Vision Pro Companion",
   "platform": "Windows 11 x64",
-  "version": "0.3.1-preview.1",
-  "date": "2026-11-02",
-  "releaseTag": "windows-v0.3.1-preview.1",
-  "releaseUrl": "https://github.com/aldomm/XPPanelsVR-Companion/releases/tag/windows-v0.3.1-preview.1",
+  "version": "2.0.0-build.4",
+  "displayVersion": "2.0 (4)",
+  "date": "2026-11-04",
+  "releaseTag": "windows-v2.0-build4",
+  "releaseUrl": "https://github.com/aldomm/XPPanelsVR-Companion/releases/tag/windows-v2.0-build4",
   "installer": {
-    "file": "XPPanelsVisionProCompanion-0.3.1-preview.1-windows-x64-SELF-SIGNED.exe",
-    "bytes": 20972840,
-    "sha256": "bc56f5ae4bf0a00fa10f59505b91bfb8c4245a734c2bebcbfb6bd89e6e58d6fe",
-    "url": "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v0.3.1-preview.1/XPPanelsVisionProCompanion-0.3.1-preview.1-windows-x64-SELF-SIGNED.exe"
+    "file": "XPPanelsVisionProCompanion-2.0.0-build.4-windows-x64-SELF-SIGNED.exe",
+    "bytes": 21002752,
+    "sha256": "e5d62160c0dbaf1bea9a8986d53aafdab0e41cc0ebfa3e36aee7677608d93927",
+    "url": "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build4/XPPanelsVisionProCompanion-2.0.0-build.4-windows-x64-SELF-SIGNED.exe"
   },
-  "packageSha256": "6de678aa8697b04ad80c02ef91e8f2e94a5f1321bfab5be766d175726e8b9ba7",
-  "payloadFiles": 2074,
+  "packageSha256": "a22fe2a0e75c25b56ee9c1119a048d753cfa1cee9caf1b5210393a5ea07423f1",
+  "payloadFiles": 2084,
   "signing": {
-    "type": "Self-signed; not automatically trusted by Windows",
+    "type": "Owner-controlled AldoApps self-signed Authenticode; not automatically trusted by Windows",
     "subject": "CN=AldoApps XPPanels Preview",
     "certificateThumbprintSHA1": "CE931B5D11F60F1C4CD10247FF077EB6575983DE",
+    "certificateSha256": "def50075e5c4bc9b44b986abc4e23b432da86b6adefb7c0cb4fed03f0f990468",
     "timestamped": true,
     "trustStoreImportRequired": false,
     "caTrusted": false
+  },
+  "compatibility": {
+    "headsetProduct": "XPPanelsVR for Apple Vision Pro",
+    "headsetVersion": "2.0",
+    "headsetBuildSourceReference": 3,
+    "headsetVersionDetected": false,
+    "companionBuild": 4,
+    "captureBuild": 3,
+    "controlPluginBuild": 3,
+    "iscsProtocol": 1,
+    "handFlightProtocol": 1,
+    "appStoreAvailability": "User confirmed and Apple live lookup verified 4 November 2026; version 2.0",
+    "limits": "No claim of clean-machine or every-headset-configuration qualification"
   },
   "plugin": {
     "name": "XPPanelsVisionProBridge",
     "port": 49002,
     "signature": "com.xppanels.visionpro.bridge",
-    "sha256": "c45453d5db8cb34c4e974441fd334bb28c45cd0711736860a056492617412382",
+    "sha256": "88865d089876800fc03ea5aadf8764ecbf15090c758cf53fff6df03e148ec5fe",
     "crt": "statically linked; no separate VC++ installer"
   },
   "media": {
@@ -47,36 +62,10 @@
     "requiresCompatibleNvidiaHardware": true,
     "fixedGeometry": "11.6 metres / 160 degrees; no live arbitrary seat geometry synchronization"
   },
-  "tests": {
-    "python": 84,
-    "pluginSuites": 3,
-    "sessionIsolation": 3,
-    "installerLifecycle": "passed in disposable root",
-    "foveatedSetupUI": "startup/close passed; no runtime started",
-    "signedPayloadHashes": "all match",
-    "codeSectionPreservation": "capture/launcher/curved host/scene unchanged by signing",
-    "coreNativeEvidence": "8 native synthetic media suites passed on October 31; unchanged capture code",
-    "websiteDownloadStatisticsTests": 8,
-    "staticImportInventory": {
-      "peFilesInspected": 118,
-      "unresolvedNonOSImports": {},
-      "specialPrerequisites": [
-        "XPLM_64.dll supplied by licensed X-Plane",
-        "NVIDIA driver supplied by GPU vendor"
-      ],
-      "limit": "Static import inventory only; dynamic driver/runtime and clean-machine operation require manual qualification"
-    }
-  },
-  "unverified": [
-    "Current production headset inputs and radio/transponder/ISCS/audio acceptance",
-    "New static-CRT plugin loading inside X-Plane",
-    "Clean-machine install on other PCs/GPUs",
-    "Sustained Wi-Fi/foveated latency, image quality and arbitrary geometry matching"
-  ],
   "dependencies": {
     "schemaVersion": 1,
     "product": "visionpro",
-    "version": "0.3.1-preview.1",
+    "version": "2.0",
     "included": [
       "Private Python/Tcl/Tk runtime",
       "Windows native capture/media bridge",
@@ -110,9 +99,61 @@
     },
     "questFiles": false,
     "settingsOrPairingTokensIncluded": false,
-    "SDKHeadersOrDeveloperTools": false
+    "SDKHeadersOrDeveloperTools": false,
+    "iscsIdentity": "Windows English OCR (OS language component; not installed automatically)",
+    "build": 4,
+    "compatibilityFamily": "XPPanelsVR-2.0",
+    "managedWindowsComponents": {
+      "Companion": {
+        "version": "2.0",
+        "build": 4
+      },
+      "CaptureBridge": {
+        "version": "2.0",
+        "build": 3
+      },
+      "ControlPlugin": {
+        "version": "2.0",
+        "build": 3
+      }
+    }
   },
+  "tests": {
+    "python": 132,
+    "website": 11,
+    "installerLifecycle": {
+      "version": "2.0.0-build.4",
+      "payloadHashes": true,
+      "nonemptyOverwriteRefused": true,
+      "privateRuntimeUI": true,
+      "foreignReceiptRefused": true,
+      "ownRemovalPreservesUnknown": true,
+      "integration": false,
+      "actualQuestTouched": false,
+      "simulatorActions": false,
+      "sameReleaseDowngradeRefused": true,
+      "newReleaseBuildResetAllowed": true
+    },
+    "staticImportInventory": {
+      "peFilesInspected": 118,
+      "unresolvedNonOSImports": {},
+      "specialPrerequisites": [
+        "XPLM_64.dll supplied by licensed X-Plane",
+        "NVIDIA driver supplied by GPU vendor"
+      ],
+      "limit": "Static import inventory only; dynamic driver/runtime and clean-machine operation require manual qualification"
+    },
+    "payloadHashes": "all verified before publication",
+    "signatures": "six owned native files and embedded uninstaller checked; timestamped self-signed, expected untrusted root"
+  },
+  "unverified": [
+    "Fresh headset acceptance of this exact packaged build",
+    "Clean-machine installation on other PCs/GPUs",
+    "Sustained Wi-Fi/foveated quality, latency and arbitrary geometry alignment"
+  ],
   "support": "aldoapps@gmail.com",
   "questProductUnchanged": true,
-  "macDownloadUnchanged": true
+  "macDownloadUnchanged": true,
+  "releaseAuthorized": true,
+  "buildManifestNote": "Package.json is the immutable build-time manifest; its historical held status was lifted by user confirmation on November 4. This release record is publication state."
 }
