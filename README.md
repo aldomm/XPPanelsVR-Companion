@@ -46,7 +46,7 @@ Companion terms before installation. Windows uses its separate installer below.
 
 ## Windows full installer
 
-**2.0 (4)** (`2.0.0-build.4`), Windows 11 x64, AldoApps self-signed installer. The publisher
+**2.0 (5)** (`2.0.0-build.5`), Windows 11 x64, AldoApps self-signed installer. The publisher
 is not automatically trusted by Windows. Keep OS security enabled; the public
 certificate is provided for inspection, without requiring a trust-store import.
 
@@ -63,9 +63,9 @@ Native stereo 55000 and native UDP receiver routing are not qualified here.
 Installer never launches the simulator/sharing or installs a simulator plugin
 automatically. Use Companion's guarded plugin Install / Update with X-Plane closed.
 Quest remains a separate product. [Windows guide](Windows-Help.html),
-[release metadata](windows-release.json), and the `windows-v2.0-build4` release
+[release metadata](windows-release.json), and the `windows-v2.0-build5` release
 describe hashes, included dependencies, offline evidence and unverified live checks.
-The older Windows 0.3.1 preview remains in [the archive](Windows-Releases.html). Capture/control build 3 is included in Companion build 4.
+The older Windows 0.3.1 preview remains in [the archive](Windows-Releases.html). Capture/control build 3 is included in Companion build 5.
 
 Both Mac packages retain their `-preview` filenames and bundled notices. The 0.1.2
 assets, checksums and download history are preserved. The new package has its own

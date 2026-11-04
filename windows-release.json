@@ -2,19 +2,19 @@
   "schemaVersion": 1,
   "product": "XPPanels Vision Pro Companion",
   "platform": "Windows 11 x64",
-  "version": "2.0.0-build.4",
-  "displayVersion": "2.0 (4)",
-  "date": "2026-11-04",
-  "releaseTag": "windows-v2.0-build4",
-  "releaseUrl": "https://github.com/aldomm/XPPanelsVR-Companion/releases/tag/windows-v2.0-build4",
+  "version": "2.0.0-build.5",
+  "displayVersion": "2.0 (5)",
+  "date": "2026-11-05",
+  "releaseTag": "windows-v2.0-build5",
+  "releaseUrl": "https://github.com/aldomm/XPPanelsVR-Companion/releases/tag/windows-v2.0-build5",
   "installer": {
-    "file": "XPPanelsVisionProCompanion-2.0.0-build.4-windows-x64-SELF-SIGNED.exe",
-    "bytes": 21002752,
-    "sha256": "e5d62160c0dbaf1bea9a8986d53aafdab0e41cc0ebfa3e36aee7677608d93927",
-    "url": "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build4/XPPanelsVisionProCompanion-2.0.0-build.4-windows-x64-SELF-SIGNED.exe"
+    "file": "XPPanelsVisionProCompanion-2.0.0-build.5-windows-x64-SELF-SIGNED.exe",
+    "bytes": 21330456,
+    "sha256": "62c7eeffb982f0bbe83e57d4efb5db497826fe372a492931f0fe42e1d130a130",
+    "url": "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build5/XPPanelsVisionProCompanion-2.0.0-build.5-windows-x64-SELF-SIGNED.exe"
   },
-  "packageSha256": "a22fe2a0e75c25b56ee9c1119a048d753cfa1cee9caf1b5210393a5ea07423f1",
-  "payloadFiles": 2084,
+  "packageSha256": "b65ad52a63fb4bd7758a5da04014166fe0f4a9500df0fa634fabac2ccaabb5b7",
+  "payloadFiles": 2085,
   "signing": {
     "type": "Owner-controlled AldoApps self-signed Authenticode; not automatically trusted by Windows",
     "subject": "CN=AldoApps XPPanels Preview",
@@ -29,7 +29,7 @@
     "headsetVersion": "2.0",
     "headsetBuildSourceReference": 3,
     "headsetVersionDetected": false,
-    "companionBuild": 4,
+    "companionBuild": 5,
     "captureBuild": 3,
     "controlPluginBuild": 3,
     "iscsProtocol": 1,
@@ -41,7 +41,7 @@
     "name": "XPPanelsVisionProBridge",
     "port": 49002,
     "signature": "com.xppanels.visionpro.bridge",
-    "sha256": "88865d089876800fc03ea5aadf8764ecbf15090c758cf53fff6df03e148ec5fe",
+    "sha256": "43f21485377d7d188b8d310fb14a7b55831a6c9bdbc9224e72c595a948660b30",
     "crt": "statically linked; no separate VC++ installer"
   },
   "media": {
@@ -101,12 +101,12 @@
     "settingsOrPairingTokensIncluded": false,
     "SDKHeadersOrDeveloperTools": false,
     "iscsIdentity": "Windows English OCR (OS language component; not installed automatically)",
-    "build": 4,
+    "build": 5,
     "compatibilityFamily": "XPPanelsVR-2.0",
     "managedWindowsComponents": {
       "Companion": {
         "version": "2.0",
-        "build": 4
+        "build": 5
       },
       "CaptureBridge": {
         "version": "2.0",
@@ -122,7 +122,7 @@
     "python": 132,
     "website": 11,
     "installerLifecycle": {
-      "version": "2.0.0-build.4",
+      "version": "2.0.0-build.5",
       "payloadHashes": true,
       "nonemptyOverwriteRefused": true,
       "privateRuntimeUI": true,
@@ -144,7 +144,44 @@
       "limit": "Static import inventory only; dynamic driver/runtime and clean-machine operation require manual qualification"
     },
     "payloadHashes": "all verified before publication",
-    "signatures": "six owned native files and embedded uninstaller checked; timestamped self-signed, expected untrusted root"
+    "signatures": "six owned native files and embedded uninstaller checked; timestamped self-signed, expected untrusted root",
+    "desktopIcon": {
+      "iconSizes": [
+        [
+          16,
+          16
+        ],
+        [
+          24,
+          24
+        ],
+        [
+          32,
+          32
+        ],
+        [
+          48,
+          48
+        ],
+        [
+          64,
+          64
+        ],
+        [
+          128,
+          128
+        ],
+        [
+          256,
+          256
+        ]
+      ],
+      "icoSha256": "9568d78a468f0bf91b7172b85565291d4793be4632a7f9e7277307cd7b8bd7cc",
+      "launcherHasEmbeddedIcon": true,
+      "installerHasEmbeddedIcon": true,
+      "desktopShortcutUsesPackagedIcon": true,
+      "nativeCaptureAndControlCodeUnchanged": true
+    }
   },
   "unverified": [
     "Fresh headset acceptance of this exact packaged build",
@@ -155,5 +192,6 @@
   "questProductUnchanged": true,
   "macDownloadUnchanged": true,
   "releaseAuthorized": true,
-  "buildManifestNote": "Package.json is the immutable build-time manifest; its historical held status was lifted by user confirmation on November 4. This release record is publication state."
+  "buildManifestNote": "Public Windows 2.0 icon update; existing headset and capture/control protocols preserved.",
+  "desktopIcon": "Existing XPPanelsVR artwork on desktop/start shortcuts, app, installer and uninstaller"
 }
