@@ -112,3 +112,5 @@ Keep prior public release assets immutable and retain links and honest headset
 compatibility notes in `Windows-Releases.html` when changing the latest download.
 No headset heartbeat or headset app version report is required.
 Windows 2.0 publication was authorized after the headset 2.0 App Store release. No headset heartbeat or receiver rebuild is required.
+
+The live Companion download counter now separates Windows and Mac installer totals, with a combined total. Headset App Store downloads and unique-user estimates are excluded.
