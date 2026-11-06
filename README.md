@@ -76,19 +76,25 @@ Laminar Research and ToLiss. Simulator, aircraft and headset app licences are se
 
 Support: [aldoapps@gmail.com](mailto:aldoapps@gmail.com).
 
-## Website downloads and privacy
+## Anonymous download analytics
 
-Website downloads remain public through the existing GitHub release URLs. Email
-verification is disabled and its provider URLs and keys are unconfigured. The
-landing page no longer displays a public download counter. No download-account
-emails or country-based download analytics are currently collected by AldoApps.
-GitHub maintains its own aggregate release download counts and infrastructure logs.
-The optional support address remains aldoapps@gmail.com.
+All downloads stay public on GitHub. No email, registration, sign-in or payment is required.
+The new anonymous link-request counter is prepared but disabled until its Cloudflare
+Workers FREE endpoint and D1 FREE database are configured. An analytics failure or
+quota limit never controls or delays the direct download link.
 
-The shared email-verification and private-download backend is being prepared
-locally and is not deployed. Its privacy details and provider information must be
-published before activation. Existing release assets and update metadata remain
-unchanged.
+The planned owner-only report separates website download-link requests (by UTC day,
+immutable release asset ID, file/version, platform and approximate country) from
+GitHub per-asset download_count totals. Neither means completed downloads, installs,
+unique people or bot-free traffic. Direct GitHub links bypass website tracking;
+VPNs/proxies can change the apparent country. No email, account ID, raw IP,
+fingerprint or tracking cookie is stored by the counter. Providers may process
+connection information under their own terms.
+
+The previous auth-service draft is superseded and must not be deployed. The current
+setup, free limits and private report commands are documented in the Companion
+repository's analytics-service/README.md. No R2, Supabase, SMTP, paid plan or domain
+purchase is involved. Optional support remains aldoapps@gmail.com.
 
 ## Windows updates and retained downloads
 

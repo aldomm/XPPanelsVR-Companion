@@ -1,0 +1,38 @@
+// No secrets. Enable only after the free Worker is verified and privacy text is updated.
+window.XPPanelsAnalyticsConfig = {
+  "enabled": false,
+  "endpoint": "",
+  "assets": {
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build5/AldoApps-Preview-Signing.cer": "aldomm/XPPanelsVR-Companion:710146406",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build5/DEPENDENCIES.json": "aldomm/XPPanelsVR-Companion:710146405",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build5/Package.json": "aldomm/XPPanelsVR-Companion:710146403",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build5/SHA256SUMS.txt": "aldomm/XPPanelsVR-Companion:710146402",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build5/windows-release.json": "aldomm/XPPanelsVR-Companion:710146415",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build5/Windows-Setup.html": "aldomm/XPPanelsVR-Companion:710146457",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build5/Windows-Signing.html": "aldomm/XPPanelsVR-Companion:710146466",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build5/Windows-Third-Party-Notices.zip": "aldomm/XPPanelsVR-Companion:710146461",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build5/XPPanelsVisionProCompanion-2.0.0-build.5-windows-x64-SELF-SIGNED.exe": "aldomm/XPPanelsVR-Companion:710146472",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build4/AldoApps-Preview-Signing.cer": "aldomm/XPPanelsVR-Companion:709788639",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build4/DEPENDENCIES.json": "aldomm/XPPanelsVR-Companion:709788640",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build4/Package.json": "aldomm/XPPanelsVR-Companion:709788628",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build4/SHA256SUMS.txt": "aldomm/XPPanelsVR-Companion:709788630",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build4/windows-release.json": "aldomm/XPPanelsVR-Companion:709788626",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build4/Windows-Setup.html": "aldomm/XPPanelsVR-Companion:709788678",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build4/Windows-Signing.html": "aldomm/XPPanelsVR-Companion:709788683",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build4/Windows-Third-Party-Notices.zip": "aldomm/XPPanelsVR-Companion:709788680",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v2.0-build4/XPPanelsVisionProCompanion-2.0.0-build.4-windows-x64-SELF-SIGNED.exe": "aldomm/XPPanelsVR-Companion:709788684",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/mac-v2.0-build3/XPPanelsVR-Companion-2.0-build3-preview.json": "aldomm/XPPanelsVR-Companion:705278555",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/mac-v2.0-build3/XPPanelsVR-Companion-2.0-build3-preview.pkg": "aldomm/XPPanelsVR-Companion:705278556",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/mac-v2.0-build3/XPPanelsVR-Companion-2.0-build3-preview.sha256": "aldomm/XPPanelsVR-Companion:705278552",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v0.3.1-preview.1/AldoApps-Preview-Signing.cer": "aldomm/XPPanelsVR-Companion:701481979",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v0.3.1-preview.1/DEPENDENCIES.json": "aldomm/XPPanelsVR-Companion:701481968",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v0.3.1-preview.1/SHA256SUMS.txt": "aldomm/XPPanelsVR-Companion:701481977",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v0.3.1-preview.1/windows-release.json": "aldomm/XPPanelsVR-Companion:701481967",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v0.3.1-preview.1/Windows-Setup.html": "aldomm/XPPanelsVR-Companion:701481969",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v0.3.1-preview.1/Windows-Third-Party-Notices.zip": "aldomm/XPPanelsVR-Companion:701482008",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/windows-v0.3.1-preview.1/XPPanelsVisionProCompanion-0.3.1-preview.1-windows-x64-SELF-SIGNED.exe": "aldomm/XPPanelsVR-Companion:701482021",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/v0.1.2-preview/XPPanelsVR-Companion-0.1.2-preview.json": "aldomm/XPPanelsVR-Companion:604875096",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/v0.1.2-preview/XPPanelsVR-Companion-0.1.2-preview.pkg": "aldomm/XPPanelsVR-Companion:604875095",
+    "https://github.com/aldomm/XPPanelsVR-Companion/releases/download/v0.1.2-preview/XPPanelsVR-Companion-0.1.2-preview.sha256": "aldomm/XPPanelsVR-Companion:604875092"
+  }
+};

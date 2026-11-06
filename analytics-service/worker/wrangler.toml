@@ -1,0 +1,17 @@
+# Deploy only after the owner account is confirmed to use Workers FREE.
+# No R2, paid services, custom domain, cron jobs or automatic upgrades.
+name = "xppanels-download-analytics"
+main = "src/index.mjs"
+compatibility_date = "2026-11-06"
+workers_dev = true
+upload_source_maps = false
+logpush = false
+
+[observability]
+enabled = false
+
+[[d1_databases]]
+binding = "ANALYTICS"
+database_name = "xppanels-download-analytics"
+database_id = "SET_AFTER_CREATING_FREE_D1_DATABASE"
+migrations_dir = "migrations"
