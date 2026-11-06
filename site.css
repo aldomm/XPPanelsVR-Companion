@@ -19,3 +19,25 @@
 .quest-reference{font-size:13px;margin:14px 0 0;color:#b4bfc3}.quest-reference a{color:#72e3d3}
 
 #download-statistics .download-counts{grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:600px){#download-statistics .download-counts{grid-template-columns:1fr}}
+
+.account-panel{background:#101f23;color:#fff;padding:36px 24px;border-top:4px solid #72e3d3}
+.account-inner{max-width:1104px;margin:0 auto}
+.account-kicker{font:700 11px/1.5 ui-monospace,monospace;letter-spacing:1.5px;color:#72e3d3;margin:0 0 10px}
+.account-panel h2{font-size:clamp(25px,3vw,34px);line-height:1.2;letter-spacing:-.5px;margin:0 0 10px}
+.account-copy{max-width:730px;color:#d4e0e1;font-size:15px;line-height:1.65;margin:0 0 20px}
+.account-state{min-height:24px;color:#bcece4;font-size:14px;font-weight:600}
+.account-state.is-error{color:#ffb4a7}
+.account-form{max-width:760px}
+.account-form label{display:block;font-size:13px;font-weight:650;margin:10px 0 7px}
+.account-row{display:flex;gap:10px;flex-wrap:wrap}
+.account-row input{flex:1 1 260px;min-width:0;min-height:48px;border:1px solid #718387;border-radius:6px;padding:10px 13px;font:inherit;background:#fff;color:#101214}
+.account-row button,.account-sign-out{min-height:48px;padding:10px 18px;border:0;border-radius:6px;background:#72e3d3;color:#0a2421;font:inherit;font-size:14px;font-weight:650;line-height:1.4;cursor:pointer}
+.account-row button:hover,.account-sign-out:hover{filter:brightness(.93)}
+.account-code-wrap{margin-top:12px}
+.account-signed-in{font-size:14px;color:#d4e0e1}.account-signed-in p{display:inline-block;margin:0 12px 12px 0}
+.account-privacy{font-size:12px;color:#bdc9cb;margin:18px 0 0}.account-privacy a{color:#72e3d3}
+@media(max-width:600px){.account-panel{padding:30px 22px}.account-row{display:grid;grid-template-columns:1fr}.account-row input{width:100%}.account-row button{width:100%}}
+
+.platform-icon{display:inline-block;width:18px;height:18px;flex:0 0 18px;fill:currentColor;vertical-align:middle}
+.platform-actions .button{gap:10px}
+.download-band .button.download{gap:10px}

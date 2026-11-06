@@ -76,32 +76,19 @@ Laminar Research and ToLiss. Simulator, aircraft and headset app licences are se
 
 Support: [aldoapps@gmail.com](mailto:aldoapps@gmail.com).
 
-## Download Statistics
+## Website downloads and privacy
 
-The download section reads GitHub's public release API and shows the total across
-published `XPPanelsVR-Companion-*.pkg` assets and the version linked on this page.
-Drafts, checksums, JSON metadata and source archives are excluded. These are download
-events, including repeat downloads and tests, not unique people or installations.
-Deleting/replacing assets or retiring releases can reduce the current public total.
-Do not subtract totals blindly when comparing reports; compare stable asset IDs and
-flag missing assets, replaced assets or reduced counts as a reporting discontinuity.
+Website downloads remain public through the existing GitHub release URLs. Email
+verification is disabled and its provider URLs and keys are unconfigured. The
+landing page no longer displays a public download counter. No download-account
+emails or country-based download analytics are currently collected by AldoApps.
+GitHub maintains its own aggregate release download counts and infrastructure logs.
+The optional support address remains aldoapps@gmail.com.
 
-The request is unauthenticated, paginated and time-bounded. Rate limits or failures
-show Unavailable, not a misleading zero. No download requests, visitor tracking,
-cookies or browser storage are added. When updating the download button, also update
-the `data-release` attribute to the exact public release tag.
-
-Offline checks: `node --test tests/download-stats.test.cjs`.
-Fetch a JSON snapshot without downloading any installer:
-
-```sh
-node -e 'require("./download-stats.js").loadStats().then(s => console.log(JSON.stringify(s, null, 2))).catch(e => { console.error(e.message); process.exitCode = 1; })'
-```
-
-The publisher's weekly email is a separate, private Codex scheduled task, not a
-website visitor subscription or a GitHub Actions email service. It needs the local
-Mac awake, Codex running and its Gmail connection available. Recipient and report
-history are not stored in this public repository.
+The shared email-verification and private-download backend is being prepared
+locally and is not deployed. Its privacy details and provider information must be
+published before activation. Existing release assets and update metadata remain
+unchanged.
 
 ## Windows updates and retained downloads
 
@@ -113,4 +100,4 @@ compatibility notes in `Windows-Releases.html` when changing the latest download
 No headset heartbeat or headset app version report is required.
 Windows 2.0 publication was authorized after the headset 2.0 App Store release. No headset heartbeat or receiver rebuild is required.
 
-The live Companion download counter now separates Windows and Mac installer totals, with a combined total. Headset App Store downloads and unique-user estimates are excluded.
+The public GitHub download counter was removed from the landing page. The planned owner-only analytics service is not active.
