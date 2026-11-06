@@ -1,14 +1,9 @@
-// Produces the same collector as worker/src/ for Cloudflare's dashboard editor.
-import { readFile, writeFile } from 'node:fs/promises';
-import { ASSETS } from '../worker/src/assets.mjs';
-
-const source = await readFile(new URL('../worker/src/index.mjs', import.meta.url), 'utf8');
-const importLine = "import { ASSETS } from './assets.mjs';";
-if (!source.startsWith(importLine)) throw new Error('Unexpected Worker import; review the bundle generator.');
-const assets = Object.fromEntries(Object.entries(ASSETS).map(([key, asset]) => [key,
-  Object.fromEntries(['repository', 'asset_id', 'version', 'filename', 'product', 'platform', 'kind']
-    .map(field => [field, asset[field]])),
-]));
-const bundle = source.replace(importLine, `const ASSETS = ${JSON.stringify(assets)};`);
-await writeFile(new URL('../worker/dashboard-worker.mjs', import.meta.url), bundle);
-console.log(`Dashboard Worker built with ${Object.keys(assets).length} immutable asset IDs.`);
+// Builds the dashboard bundle from canonical modules. No secret is included.
+import {readFile,writeFile} from 'node:fs/promises';
+const read=name=>readFile(new URL('../worker/src/'+name,import.meta.url),'utf8');
+const assets=(await read('assets.mjs')).replace('export const ASSETS','const ASSETS');
+const core=(await read('report-core.mjs')).replaceAll('export const ','const ').replaceAll('export function ','function ');
+const collector=(await read('collector.mjs')).replace(/^import .*;\r?\n/gm,'').replace('export default {','const collector = {');
+const worker=(await read('index.mjs')).replace(/^import .*;\r?\n/gm,'').replaceAll('export async function ','async function ');
+await writeFile(new URL('../worker/dashboard-worker.mjs',import.meta.url),[assets,core,collector,worker].join('\n'));
+console.log('Built dashboard-worker.mjs (no secret included).');

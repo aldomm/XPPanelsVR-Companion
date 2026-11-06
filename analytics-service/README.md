@@ -1,201 +1,121 @@
-# Anonymous download analytics — Workers Free + D1 Free
+# Anonymous website analytics and private daily report
 
-This replaces the previous email/private-download proposal. There is no visitor
-account, email collection, registration, R2, Supabase, SMTP, purchased domain,
-paid analytics, scheduled paid job or automatic upgrade. Files remain public,
-unchanged GitHub Release assets. The two sites retain their approved appearance.
+The existing GitHub Pages sites keep public, direct GitHub download links. This
+service uses the existing Workers Free + D1 database and a private Google Apps
+Script sender. It needs no paid plan, purchased domain, local computer or AI runtime.
 
-## Current status
+## Three separate metrics
 
-Anonymous link-request analytics are enabled on both existing GitHub Pages sites.
-On 6 November 2026, the owner's Cloudflare account was verified as **Workers Free,
-$0, Current plan**. The collector was deployed directly through the Cloudflare
-Dashboard (version `51311b56`) at
-`https://xppanels-download-analytics.aldoapps.workers.dev/event`.
-The existing D1 `ANALYTICS` binding, compatibility date 2026-11-06 and disabled
-observability are recorded in `worker/wrangler.toml`.
+- Download-link requests: accepted clicks on allow-listed immutable release asset
+  IDs, grouped by product, platform, file/version, approximate country and UTC hour.
+  Auxiliary files are counted by the collector but do not qualify report emails.
+- Page views: landing-page loads for the Vision Pro and Quest sites, including their
+  index.html addresses. Repeat document loads count again. Other pages are excluded.
+  Counts include product, UTC hour and approximate country, with no visitor IDs.
+- GitHub counters: cumulative counts for currently published EXE, PKG and APK assets.
+  Their changes use matching immutable asset IDs and actual snapshot capture times.
+  New, missing, replaced and decreased counters never receive an invented delta.
 
-Live pre-launch checks accepted one event per product, derived country `CA` at
-Cloudflare's edge, and rejected/ignored invalid origins, unknown assets, extra
-fields, prefetch, crawlers, GET, HEAD and OPTIONS without incrementing the table.
-Those two known test rows were removed before activation. Post-launch browser
-clicks also verified one request per product; their two known test events were
-removed separately. Both Windows downloads matched their published SHA-256 hashes.
-A local browser download succeeded while tracking was rejected/blocked. Fourteen offline
-checks pass, including blocked, rejected, hanging and quota-failed tracking while
-preserving direct GitHub links. Local evidence and report exports stay in ignored
-`reports/`; test traffic must never be presented as new users.
+These metrics are never added together. They do not prove completed downloads,
+installs, unique people or bot-free traffic. Country/hour detail applies only to
+website events. GitHub has no country or exact download-time data in this report.
 
-No payment method, billing enrollment, upgrade or domain purchase was used.
-No Wrangler OAuth access was granted; the pending fallback login was stopped.
-The deployment was completed through the existing signed-in dashboard.
-Do not accept a paid plan later. The free `workers.dev` address is sufficient.
+## Fixed windows and conditional email
 
-## What gets counted
+The Cloudflare cron is `0 1 * * *`: 09:00 Asia/Hong_Kong. It prepares 24-hour,
+7-day, 30-day and all-time sections. Rolling windows include their start and
+exclude the fixed cutoff, regardless of later delivery. GitHub snapshots disclose
+actual capture times because scheduled execution can be delayed.
 
-The site's original GitHub `href` is never rewritten. A trusted primary, keyboard
-or middle-click on a known release-asset link starts a small POST to `/event`
-alongside the browser's normal navigation. The script does not prevent the default
-click, await tracking, retry, proxy files, write browser storage or set cookies.
-It uses `keepalive`, `credentials: omit` and no referrer. If JavaScript is disabled,
-the endpoint is unconfigured, blocked, offline, slow or over quota, the original
-download link still works. Events lost on navigation or failure are not recovered.
+A private Google Apps Script checks every five minutes and does network work only
+09:00–10:59 HKT. It sends at most one report per cutoff to aldoapps@gmail.com, only
+when the latest full 24-hour period has qualifying package-download activity.
+Page views alone, or older 7/30-day/all-time activity alone, never trigger email.
+Exact-minute delivery is not guaranteed. No test, quiet-day or failure email is
+sent by this script. A send attempt is recorded before MailApp: ambiguous failure
+is not retried automatically for that cutoff, to avoid duplicate mail.
 
-The Worker accepts one allow-listed immutable asset key, derives approximate
-country from Cloudflare's edge metadata and increments a UTC daily aggregate.
-D1 stores only day, repository, asset ID, version, filename, product, platform,
-package/auxiliary kind, country and count. It stores no email, account identifier,
-raw IP, user-agent, fingerprint, event timestamp or visitor identifier. User-agent
-and purpose headers are inspected only to reject obvious automation. Request
-logging and Logpush are disabled in this Worker configuration; Cloudflare and
-GitHub may still process connection/security information under their own terms.
+Hourly download collection began 2026-11-06T15:44:07.354Z. The first fully covered
+09:00-to-09:00 window is 7–8 November 2026 HKT. Longer windows stay marked partial
+until enough history accumulates. Page-view start times are recorded separately
+for each product in D1 metadata; no earlier page visits are reconstructed.
 
-`HEAD`, `OPTIONS` and `GET` do not count. Obvious prefetch/prerender headers and
-common crawler/preview user agents are ignored. This is not comprehensive bot
-detection: the endpoint is public, headers can be forged, sophisticated bots and
-repeat activations can inflate counts. Do not label these as human downloads.
+All-time download-link counts use preserved history since 6 November 2026. Daily
+records before the cutoff's UTC date plus that date's completed hourly bucket are
+counted once; hourly copies of prior daily records are not added again. Page-view
+all-time totals use the same rule. GitHub all-time totals cover currently published
+package assets only; deleted/replaced asset histories cannot be reconstructed.
 
-Country covers accepted requests from instrumented website links only. Direct
-GitHub links, context-menu downloads, other clients, disabled JavaScript and failed
-tracking bypass it. VPNs/proxies may change the country. `ZZ` means unknown.
-No location or historical country data is inferred from GitHub download counts.
+## Privacy and failure behavior
 
-## Separate metrics
+The public `/event` and `/page-view` endpoints require the exact website origin,
+small allow-listed event bodies and valid paths/assets. Obvious bots and prefetches
+are ignored. HEAD/OPTIONS do not increment counters. This is best-effort filtering,
+not proof of human traffic. Daily and hourly writes are atomic.
 
-1. **Website download-link requests**: D1 daily/file/country counts. These are
-   accepted tracking requests associated with link activation, not completion.
-2. **GitHub per-asset download_count totals**: GitHub's cumulative public counter,
-   fetched privately by the report command. It includes traffic outside the site.
+No cookie, storage identifier, raw IP, email, user-agent, fingerprint, referrer,
+query string or individual event timestamp is stored in the event tables. Country
+comes from Cloudflare's approximate edge metadata. Providers can still process
+normal connection/security information. Optional Worker logs, traces and issues
+remain disabled. Aggregate history remains until the owner chooses to remove it.
 
-Neither guarantees completed transfers, installs, unique people or bot-free use.
-Never add the two metrics or infer a conversion rate between them. Quotas or
-outages can leave gaps. An unavailable metric is not displayed as zero.
+Both browser scripts are nonblocking. Tracking failures, disabled JavaScript,
+outages and Free-plan limits can leave gaps but never prevent normal page use or
+GitHub downloads. Page-view tracking guards against duplicate script execution in
+one document and waits for prerender activation. The public privacy notices
+explain collection and private aggregate email reports.
 
-Identity is `repository:GitHub asset ID`, with version/file metadata retained.
-The catalog retains historical IDs if releases disappear. A replacement asset
-with the same URL/name has a new ID and starts a separate series. Reports compare
-only the same IDs, and flag new, missing or decreasing counters without inventing
-deltas or subtracting repository totals. Refresh before publishing new downloads.
+## Source and deployment
 
-## Verified zero-cost limits (6 November 2026)
+- `worker/src/index.mjs`: collector routing, authenticated report reader, cron.
+- `worker/src/collector.mjs`: anonymous event validation and aggregate writes.
+- `worker/src/report-core.mjs`: fixed windows and independent metric summaries.
+- `worker/migrations/0002_hourly_owner_reports.sql`: additive report/page tables.
+- `google-sender/Code.gs`, `appsscript.json`: private standalone Google sender.
+- `worker/dashboard-worker.mjs`: generated single-file Dashboard deployment.
 
-| Service on the Free account | Included/hard limit | At the limit |
-| --- | --- | --- |
-| Workers Free | 100,000 requests/day, 10 ms CPU/invocation | Cloudflare returns Error 1027 after the daily request limit. No upgrade is performed by this code. |
-| D1 Free | 5 million rows read/day; 100,000 rows written/day | Queries fail until midnight UTC; data remains stored. No free-tier overage billing. |
-| D1 Free storage | 500 MB per database; 5 GB per account | Further writes can fail until space is available; do not upgrade. |
+Run from this directory:
 
-Account-wide usage by other Workers/databases also consumes these limits. A query
-can read/write more than one row because of indexes, so a click is not a guaranteed
-one-unit billing metric. This is one atomic upsert per accepted event, no periodic
-jobs. The owner report uses a bounded date range. If collection reaches a limit,
-downloads continue directly from GitHub and collection resumes after reset; gaps
-must be reported honestly. No upgrade or billing API exists in this implementation.
+```powershell
+node --test tests/analytics.test.mjs tests/report.test.mjs
+node tools/build-dashboard-worker.mjs
+node --check worker/dashboard-worker.mjs
+```
 
-Sources: [Workers pricing/default Free](https://developers.cloudflare.com/workers/platform/pricing/),
-[Workers daily limits](https://developers.cloudflare.com/workers/platform/limits/),
-[D1 free-tier enforcement](https://developers.cloudflare.com/changelog/post/2026-09-01-d1-free-tier-limit-enforcement/),
+Deploy through the existing Cloudflare Dashboard, retaining the ANALYTICS D1
+binding and Free plan. Apply additive migrations before deploying the worker.
+Never delete/reset existing counters or baseline records during an update.
+`wrangler.toml` records the configuration; it does not authorize a CLI deployment.
+
+Store the random report key only as Cloudflare secret OWNER_REPORT_KEY and private
+Google Script Property OWNER_REPORT_KEY. The Google property OWNER_REPORT_URL is
+https://xppanels-download-analytics.aldoapps.workers.dev/owner/report. Set
+OWNER_CONFIRMED=true only under the owner's activation authorization, then run
+activateDailyReports. It reuses an existing checkDailyReport trigger. Use the
+existing private project; never publish it as a web app. The explicit Google
+scopes permit send-mail, external fetch and trigger management, not inbox access.
+
+The owner endpoint requires a bearer key, accepts only GET with no query string,
+and serves the current prepared report. It exposes no arbitrary SQL or writes.
+No secret belongs in GitHub, browser config, a URL, console output or screenshots.
+Use previewDailyReport for a no-send integration check and pauseDailyReports to
+pause sending while collection continues. LAST_STATUS and the cutoff markers in
+private Script Properties explain sender outcomes.
+
+## Owner counters and catalog maintenance
+
+The existing signed-in Cloudflare D1 console provides the daily/hourly tables,
+page-view tables, download_report_meta and download_prepared_reports. The old
+report-dashboard.sql remains a read-only daily download-link export. Run
+`node tools/report.mjs` for a separate fresh public GitHub counter snapshot;
+private exports stay in ignored reports/. Do not turn a failed query into zero.
+
+`node tools/refresh-catalog.mjs` retains historical immutable IDs and existing
+endpoint settings. Review and deploy refreshed asset maps and the worker together
+when releases change. Keep direct download URLs intact.
+
+Official service references: [Cloudflare Free pricing](https://developers.cloudflare.com/workers/platform/pricing/),
 [D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/),
-[D1 storage limits](https://developers.cloudflare.com/d1/platform/limits/),
-[D1 setup prerequisites](https://developers.cloudflare.com/d1/get-started/),
-[workers.dev](https://developers.cloudflare.com/workers/configuration/routing/workers-dev/).
-
-## Deployment and configuration
-
-Use the existing [Worker dashboard](https://dash.cloudflare.com/9be103bd6e0f65c974d8754b9ef45cbb/workers/services/view/xppanels-download-analytics/production).
-The database already exists; do not create a duplicate. Account/database IDs are
-not secrets. Keep the account on Free, the binding named `ANALYTICS`, and optional
-Worker logs, traces and issues disabled. There are no cron jobs or external exports.
-
-For dashboard code edits, run `node tools/build-dashboard-worker.mjs` from this
-folder after changing the canonical `worker/src/` modules. Paste the generated
-`worker/dashboard-worker.mjs` into the dashboard's code editor and deploy.
-The bundle has no imports or secrets. Update both website asset maps together
-with the Worker whenever new releases are published.
-
-No secrets are needed by the public Worker. It has no report/read endpoint, only
-the event collector. D1 is accessible to the owner's Cloudflare account via the
-dashboard or authenticated CLI, not to website visitors. Never put an owner API
-token in `analytics-config.js`, GitHub Pages, a URL or a report.
-
-For future collector or catalog changes:
-
-- Check actual Free-plan state and the deployed Worker/D1 bindings.
-- Test a labeled test link from each product origin/path, and inspect the D1
-  aggregate. Record the test traffic so it is not mistaken for new users.
-- Confirm HEAD, preflight and prefetch are ignored; unknown assets/origins fail.
-- Confirm downloads still work with the tracking host blocked or offline.
-- Set the exact `https://WORKER.SUBDOMAIN.workers.dev/event` endpoint in both
-  configs and enable them only together with the current privacy notice below.
-- Deploy both sites and verify a real link event plus the private report.
-
-
-## Owner report/export
-
-The [private Cloudflare D1 console](https://dash.cloudflare.com/9be103bd6e0f65c974d8754b9ef45cbb/workers/d1/databases/b218bc4c-c726-4e70-9eeb-968dbee37fae/console)
-can run the single line from `report-dashboard.sql` after owner sign-in. The
-dashboard console flattens pasted newlines, so use this comment-free version. It selects the
-last 30 UTC days by default; edit its date bounds for another period. For a local
-report through an authenticated Wrangler session:
-
-```powershell
-New-Item -ItemType Directory -Force reports | Out-Null
-npx wrangler d1 execute xppanels-download-analytics --remote --config worker/wrangler.toml --file report.sql --json | Set-Content -Encoding utf8 reports/link-requests.json
-node tools/report.mjs --d1 reports/link-requests.json
-```
-
-You can also save a JSON array of rows copied from the authenticated dashboard
-as `reports/link-requests.json` and run only the Node report command; no Wrangler
-authorization is needed for this route. Do not turn a failed query into an empty array.
-
-This writes a clearly labeled website country/day/file CSV and a separate
-timestamped GitHub per-asset CSV/JSON snapshot plus summary JSON. No report is
-published. `reports/`, credential files and Wrangler state are gitignored.
-The existing authenticated `gh` CLI fetches only these public repositories.
-
-For GitHub-only reporting now (country unavailable, not zero):
-
-```powershell
-node tools/report.mjs
-```
-
-For a later snapshot compared against an earlier immutable-ID baseline:
-
-```powershell
-node tools/report.mjs --d1 reports/link-requests.json --previous reports/github-TIMESTAMP.json
-```
-
-New/missing/decreased IDs are flagged in the CSV. Current published package totals
-and auxiliary-file counts are explicitly distinguished. Records remain until
-the owner chooses to delete them; no automatic retention period is promised.
-
-## Refresh catalog and test
-
-```powershell
-node tools/refresh-catalog.mjs
-node --test tests/analytics.test.mjs
-```
-
-Refresh retains existing enable/endpoint settings and historical identities; review
-and deploy the Worker catalog and both website maps together after release changes.
-The client script is shared byte-for-byte between the two site repositories.
-Offline tests use Node's actual SQLite engine for the D1 schema/upsert and cover
-event rejection, no personal fields, unknown country, quota failure, unchanged
-direct-link behavior, browser request failures and GitHub discontinuities.
-
-## Website privacy wording
-
-Reading this site and downloading its files remain public; no email or account is
-required. When you activate a download link, a small anonymous request to Cloudflare
-counts the link request by UTC day, file/version, platform and approximate country.
-The aggregate table stores no email, account identifier, raw IP, fingerprint or
-tracking cookie. This counts link requests, not completed transfers, installations
-or unique people. Repeated clicks and some bots may count; direct GitHub downloads
-and failed tracking are not included. VPNs/proxies can affect country. GitHub
-separately keeps its public release download totals. The owner can inspect the
-aggregates privately; they remain until deleted. GitHub and Cloudflare may process
-normal connection/security information under their own privacy terms. Optional
-support remains aldoapps@gmail.com.
-
-Provider notices: [GitHub](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement),
-[Cloudflare](https://www.cloudflare.com/privacypolicy/).
+[Google Apps Script quotas](https://developers.google.com/apps-script/guides/services/quotas),
+[Google timer behavior](https://developers.google.com/apps-script/reference/script/clock-trigger-builder),
+[MailApp send-only access](https://developers.google.com/apps-script/reference/mail/mail-app).

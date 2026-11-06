@@ -1,5 +1,6 @@
 # Deploy only after the owner account is confirmed to use Workers FREE.
-# No R2, paid services, custom domain, cron jobs or automatic upgrades.
+# No R2, paid services, custom domain or automatic upgrades.
+# Owner-approved deployments use the Cloudflare Dashboard. Keep the secret out of this file.
 name = "xppanels-download-analytics"
 account_id = "9be103bd6e0f65c974d8754b9ef45cbb"
 main = "src/index.mjs"
@@ -10,6 +11,9 @@ logpush = false
 
 [observability]
 enabled = false
+
+[triggers]
+crons = ["0 1 * * *"]
 
 [[d1_databases]]
 binding = "ANALYTICS"

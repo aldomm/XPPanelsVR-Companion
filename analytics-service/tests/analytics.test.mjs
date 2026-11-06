@@ -10,12 +10,19 @@ import { parseD1Export } from '../tools/d1-export.mjs';
 
 const origin = 'https://aldomm.github.io';
 const [assetKey, asset] = Object.entries(ASSETS).find(([, a]) => a.kind === 'package');
-const schema = readFileSync(new URL('../worker/migrations/0001_download_link_daily.sql', import.meta.url), 'utf8');
+const schema = readFileSync(new URL('../worker/migrations/0001_download_link_daily.sql', import.meta.url), 'utf8')+readFileSync(new URL('../worker/migrations/0002_hourly_owner_reports.sql', import.meta.url), 'utf8');
 
 function database(t) {
   const db = new DatabaseSync(':memory:'); db.exec(schema); t.after(() => db.close());
   return {
-    env: { ANALYTICS: { prepare(sql) { return { bind(...args) { return { async run() { return db.prepare(sql).run(...args); } }; } }; } } },
+    env: { ANALYTICS: {
+      prepare(sql) { return { bind(...args) { return { sql,args }; } }; },
+      async batch(statements) {
+        db.exec('BEGIN');
+        try { const result=statements.map(s=>db.prepare(s.sql).run(...s.args));db.exec('COMMIT');return result; }
+        catch(e) {db.exec('ROLLBACK');throw e;}
+      },
+    } },
     rows: () => db.prepare('SELECT * FROM download_link_daily').all(),
     columns: () => db.prepare('PRAGMA table_info(download_link_daily)').all().map(c => c.name),
   };
