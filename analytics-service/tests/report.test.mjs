@@ -134,6 +134,30 @@ test('page views alone never qualify an email and all-time daily/hourly copies c
  assert.equal(r.qualifies,false);
  const h=scriptHarness(r);h.context.checkDailyReport();assert.equal(h.sent.length,0);
 });
+test('adding page views to an existing prepared report preserves its original counters, snapshots and send decision',async()=>{
+ const db=new DatabaseSync(':memory:');
+ db.exec(readFileSync(new URL('../worker/migrations/0001_download_link_daily.sql',import.meta.url),'utf8'));
+ db.exec(readFileSync(new URL('../worker/migrations/0002_hourly_owner_reports.sql',import.meta.url),'utf8'));
+ const previous=report([row('2026-11-09T12:00:00.000Z',4)]);
+ previous.periods.forEach(p=>delete p.page_views);delete previous.all_time.page_views;
+ const original=JSON.parse(JSON.stringify(previous));
+ db.prepare('INSERT INTO download_prepared_reports VALUES (?,?,?)').run(cutoff,previous.prepared_at_utc,JSON.stringify(previous));
+ db.prepare('INSERT INTO page_view_daily VALUES (?,?,?,?)').run('2026-11-09','quest','HK',2);
+ db.prepare('INSERT INTO page_view_hourly VALUES (?,?,?,?)').run('2026-11-09T12:00:00.000Z','quest','HK',2);
+ db.prepare('INSERT INTO page_view_hourly VALUES (?,?,?,?)').run('2026-11-10T00:00:00.000Z','quest','HK',3);
+ db.prepare('INSERT INTO download_report_meta VALUES (?,?)').run('page_views_started_at_quest','2026-11-09T00:00:00.000Z');
+ await prepareReport({ANALYTICS:sqliteBinding(db)},new Date(cutoff).getTime());
+ const stored=db.prepare('SELECT * FROM download_prepared_reports').get(),upgraded=JSON.parse(stored.report_json);
+ assert.equal(stored.prepared_at_utc,original.prepared_at_utc);
+ assert.equal(upgraded.all_time.page_views.total,5);assert.equal(upgraded.periods[0].page_views.total,5);
+ assert.ok(upgraded.page_views_added_at_utc);
+ upgraded.periods.forEach(p=>delete p.page_views);delete upgraded.all_time.page_views;delete upgraded.page_views_added_at_utc;
+ assert.deepEqual(upgraded,original);
+ assert.equal(db.prepare('SELECT COUNT(*) n FROM download_github_snapshots').get().n,0);
+ await prepareReport({ANALYTICS:sqliteBinding(db)},new Date(cutoff).getTime());
+ assert.equal(db.prepare('SELECT report_json FROM download_prepared_reports').get().report_json,stored.report_json);
+ db.close();
+});
 test('website page tracking sends once per document, omits identifiers and stays nonblocking',async()=>{
  const source=readFileSync(new URL('../../page-views.js',import.meta.url),'utf8');
  function harness({path='/XPPanelsVR-Quest/',origin='https://aldomm.github.io',prerendering=false,fail=false,enabled=true}={}) {

@@ -36,10 +36,11 @@ export async function githubSnapshot(fetcher=fetch) {
 }
 export async function prepareReport(env,scheduledTime) {
   const cutoff=cutoffAt(scheduledTime);
-  const existing=await env.ANALYTICS.prepare('SELECT cutoff_utc FROM download_prepared_reports WHERE cutoff_utc=?').bind(cutoff).first();
-  if(existing) return;
+  const existing=await env.ANALYTICS.prepare('SELECT report_json FROM download_prepared_reports WHERE cutoff_utc=?').bind(cutoff).first();
+  const previousReport=existing?JSON.parse(existing.report_json):null;
+  if(previousReport?.all_time?.page_views && previousReport.periods.every(p=>p.page_views)) return;
   let githubError=false;
-  try {
+  if(!previousReport) try {
     const existingSnapshot=await env.ANALYTICS.prepare('SELECT cutoff_utc FROM download_github_snapshots WHERE cutoff_utc=?').bind(cutoff).first();
     if(!existingSnapshot) {
       const snapshot=await githubSnapshot();
@@ -58,6 +59,16 @@ export async function prepareReport(env,scheduledTime) {
   if([hourly,meta,snapshots,daily,pageHourly,pageDaily].some(r=>!r.success||r.results.length>10000)) throw Error('Report data unavailable or exceeds safe row limit');
   const metadata=Object.fromEntries(meta.results.map(r=>[r.key,r.value]));
   const report=makeReport({cutoff,preparedAt:new Date().toISOString(),hourlyStartedAt:metadata.hourly_started_at||null,trackingStartedOn:metadata.tracking_started_on||'2026-11-06',hourlyRows:hourly.results,dailyRows:daily.results,pageViewHourlyRows:pageHourly.results,pageViewDailyRows:pageDaily.results,pageViewStartedAt:{vision:metadata.page_views_started_at_vision||null,quest:metadata.page_views_started_at_quest||null},snapshots:snapshots.results.map(s=>({...JSON.parse(s.assets_json),cutoff_utc:s.cutoff_utc,source:s.source}))});
+  if(previousReport) {
+    // Upgrade a prepared report without changing its download/GitHub history,
+    // qualification, original capture times or original preparation timestamp.
+    const upgraded={...previousReport,
+      periods:previousReport.periods.map(p=>({...p,page_views:report.periods.find(n=>n.days===p.days).page_views})),
+      all_time:{...previousReport.all_time,page_views:report.all_time.page_views},
+      page_views_added_at_utc:report.prepared_at_utc};
+    await env.ANALYTICS.prepare('UPDATE download_prepared_reports SET report_json=? WHERE cutoff_utc=? AND report_json=?').bind(JSON.stringify(upgraded),cutoff,existing.report_json).run();
+    return;
+  }
   if(githubError) report.github_status='Current GitHub snapshot unavailable; never interpreted as zero.';
   await env.ANALYTICS.prepare('INSERT OR IGNORE INTO download_prepared_reports (cutoff_utc,prepared_at_utc,report_json) VALUES (?,?,?)').bind(cutoff,report.prepared_at_utc,JSON.stringify(report)).run();
 }
