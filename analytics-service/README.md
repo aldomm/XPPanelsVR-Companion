@@ -18,7 +18,10 @@ observability are recorded in `worker/wrangler.toml`.
 Live pre-launch checks accepted one event per product, derived country `CA` at
 Cloudflare's edge, and rejected/ignored invalid origins, unknown assets, extra
 fields, prefetch, crawlers, GET, HEAD and OPTIONS without incrementing the table.
-Only those two known test rows were removed before activation. Fourteen offline
+Those two known test rows were removed before activation. Post-launch browser
+clicks also verified one request per product; their two known test events were
+removed separately. Both Windows downloads matched their published SHA-256 hashes.
+A local browser download succeeded while tracking was rejected/blocked. Fourteen offline
 checks pass, including blocked, rejected, hanging and quota-failed tracking while
 preserving direct GitHub links. Local evidence and report exports stay in ignored
 `reports/`; test traffic must never be presented as new users.
@@ -130,7 +133,8 @@ For future collector or catalog changes:
 ## Owner report/export
 
 The [private Cloudflare D1 console](https://dash.cloudflare.com/9be103bd6e0f65c974d8754b9ef45cbb/workers/d1/databases/b218bc4c-c726-4e70-9eeb-968dbee37fae/console)
-can run `report.sql` directly after owner sign-in. It selects the
+can run the single line from `report-dashboard.sql` after owner sign-in. The
+dashboard console flattens pasted newlines, so use this comment-free version. It selects the
 last 30 UTC days by default; edit its date bounds for another period. For a local
 report through an authenticated Wrangler session:
 
@@ -139,6 +143,10 @@ New-Item -ItemType Directory -Force reports | Out-Null
 npx wrangler d1 execute xppanels-download-analytics --remote --config worker/wrangler.toml --file report.sql --json | Set-Content -Encoding utf8 reports/link-requests.json
 node tools/report.mjs --d1 reports/link-requests.json
 ```
+
+You can also save a JSON array of rows copied from the authenticated dashboard
+as `reports/link-requests.json` and run only the Node report command; no Wrangler
+authorization is needed for this route. Do not turn a failed query into an empty array.
 
 This writes a clearly labeled website country/day/file CSV and a separate
 timestamped GitHub per-asset CSV/JSON snapshot plus summary JSON. No report is
