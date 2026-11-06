@@ -1,0 +1,24 @@
+/* Shared community invitations for the separate headset editions. */
+.site-header nav{align-items:center}
+.site-header nav a.nav-discord{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:8px 13px;border:1px solid #72e3d3;border-radius:6px;background:#18332f;color:#92f1e1;font-weight:650;white-space:nowrap}
+.site-header nav a.nav-discord:hover{background:#72e3d3;color:#0a2421;text-decoration:none}
+.discord-callout{padding:15px 18px;margin:18px 0;border:1px solid #bcded8;border-radius:8px;background:#e8f6f1;color:#294640;font-size:14px;line-height:1.7}
+.discord-callout strong{display:block;margin-bottom:2px}
+.discord-callout a,.discord-help a,.discord-download-question a{color:#006b64;font-weight:650;text-underline-offset:4px}
+.discord-help{max-width:780px;margin:20px 0 30px;color:#525e63;font-size:15px;line-height:1.7}
+.download .discord-download-question{margin:12px 0 0;font-size:12px;line-height:1.6;text-align:center}
+.discord-community{background:#172d2c;color:#fff;border-top:4px solid #72e3d3;scroll-margin-top:24px}
+.community-inner{max-width:1184px;margin:0 auto;padding:62px 40px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:48px}
+.discord-community .eyebrow{margin:0 0 14px;color:#8ee9da;font-size:11px;font-weight:700;letter-spacing:1px}
+.discord-community h2{max-width:650px;margin:0 0 18px;color:#fff;font-size:clamp(30px,3.5vw,40px);line-height:1.2;letter-spacing:-.5px;font-weight:650}
+.discord-community .community-copy{max-width:650px;margin:0;color:#d0e1dc;font-size:16px;line-height:1.7}
+.community-topics{display:flex;flex-wrap:wrap;gap:10px 22px;margin:22px 0 0;padding:0;list-style:none}
+.community-topics li{margin:0;padding:0;color:#a9ccc2;font-size:12px;line-height:1.6}
+.community-topics li::before{content:"+";margin-right:7px;color:#72e3d3;font-weight:700}
+.community-action{text-align:center}
+.discord-community .community-action .button{min-height:54px;gap:18px;padding:15px 26px;background:#72e3d3;color:#0a2421;border-radius:6px;font-size:16px;font-weight:700;white-space:nowrap}
+.community-action p{max-width:260px;margin:12px auto 0;color:#a9ccc2;font-size:12px;line-height:1.6}
+.discord-community a:focus-visible,.site-header .nav-discord:focus-visible{outline:3px solid #fff;outline-offset:5px}
+@media(max-width:900px){.site-header{flex-wrap:wrap}.site-header nav{gap:16px;margin-left:auto}.community-inner{padding:48px 24px;gap:30px}.discord-community .community-action .button{padding-inline:20px;font-size:14px}}
+@media(max-width:700px){.community-inner{grid-template-columns:1fr;gap:28px}.community-action{text-align:left}.community-action p{max-width:none;margin-left:0}.discord-community h2{font-size:30px}.discord-community .community-copy{font-size:15px}}
+@media(max-width:600px){.site-header nav{width:100%;margin-left:0;gap:10px 16px}.site-header nav a.nav-discord{margin-left:auto;min-height:40px;padding:8px 11px;font-size:12px}.community-inner{padding:40px 24px}.community-topics{gap:8px 18px}.discord-community .community-action .button{width:100%;min-height:50px;font-size:15px}.community-action p{text-align:center}.discord-callout{padding:14px 16px;font-size:13px}.discord-help{font-size:14px}.download .discord-download-question{font-size:13px}}
