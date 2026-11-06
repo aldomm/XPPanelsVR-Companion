@@ -7,23 +7,26 @@ unchanged GitHub Release assets. The two sites retain their approved appearance.
 
 ## Current status
 
-Implementation and offline tests are ready. Both `analytics-config.js` files have
-`enabled: false` and an empty endpoint. No tracking requests are sent in this state.
-The owner has GitHub CLI access. Cloudflare previously showed a sign-in page; no
-Worker or D1 has been created or activated. No billing or paid enrollment is needed
-for the specified Workers Free/D1 Free design, and none is authorized.
+Anonymous link-request analytics are enabled on both existing GitHub Pages sites.
+On 6 November 2026, the owner's Cloudflare account was verified as **Workers Free,
+$0, Current plan**. The collector was deployed directly through the Cloudflare
+Dashboard (version `51311b56`) at
+`https://xppanels-download-analytics.aldoapps.workers.dev/event`.
+The existing D1 `ANALYTICS` binding, compatibility date 2026-11-06 and disabled
+observability are recorded in `worker/wrangler.toml`.
 
-**Smallest next action:** sign in to your Cloudflare account in Chrome at
-<https://dash.cloudflare.com/> (or create a free account there), and leave its
-dashboard available. Do not paste passwords, tokens or credentials into chat.
-Before deployment, verify the selected account shows **Workers Free**, with no
-paid Workers subscription. If any setup screen requires a payment method, paid
-plan, billing enrollment or upgrade, stop there; do not accept it. An existing
-paid account must not be used for this strictly zero-cost deployment.
+Live pre-launch checks accepted one event per product, derived country `CA` at
+Cloudflare's edge, and rejected/ignored invalid origins, unknown assets, extra
+fields, prefetch, crawlers, GET, HEAD and OPTIONS without incrementing the table.
+Only those two known test rows were removed before activation. Fourteen offline
+checks pass, including blocked, rejected, hanging and quota-failed tracking while
+preserving direct GitHub links. Local evidence and report exports stay in ignored
+`reports/`; test traffic must never be presented as new users.
 
-The free `workers.dev` address is sufficient. No domain or DNS purchase is needed.
-Cloudflare's getting-started prerequisites are an account and Node.js; Workers
-Free is the default. Actual account state still needs verification after sign-in.
+No payment method, billing enrollment, upgrade or domain purchase was used.
+No Wrangler OAuth access was granted; the pending fallback login was stopped.
+The deployment was completed through the existing signed-in dashboard.
+Do not accept a paid plan later. The free `workers.dev` address is sufficient.
 
 ## What gets counted
 
@@ -94,31 +97,25 @@ Sources: [Workers pricing/default Free](https://developers.cloudflare.com/worker
 [D1 setup prerequisites](https://developers.cloudflare.com/d1/get-started/),
 [workers.dev](https://developers.cloudflare.com/workers/configuration/routing/workers-dev/).
 
-## Configure after owner sign-in
+## Deployment and configuration
 
-Do all commands from this `analytics-service` directory. Verify the account is
-Workers Free first. Wrangler is Cloudflare's official CLI; browser login keeps
-owner credentials out of the repository and public website.
+Use the existing [Worker dashboard](https://dash.cloudflare.com/9be103bd6e0f65c974d8754b9ef45cbb/workers/services/view/xppanels-download-analytics/production).
+The database already exists; do not create a duplicate. Account/database IDs are
+not secrets. Keep the account on Free, the binding named `ANALYTICS`, and optional
+Worker logs, traces and issues disabled. There are no cron jobs or external exports.
 
-```powershell
-npx wrangler login
-npx wrangler d1 create xppanels-download-analytics
-```
-
-Put the returned database ID into `worker/wrangler.toml`; IDs are not secrets.
-Keep the account on Free. Then:
-
-```powershell
-npx wrangler d1 migrations apply xppanels-download-analytics --remote --config worker/wrangler.toml
-npx wrangler deploy --config worker/wrangler.toml
-```
+For dashboard code edits, run `node tools/build-dashboard-worker.mjs` from this
+folder after changing the canonical `worker/src/` modules. Paste the generated
+`worker/dashboard-worker.mjs` into the dashboard's code editor and deploy.
+The bundle has no imports or secrets. Update both website asset maps together
+with the Worker whenever new releases are published.
 
 No secrets are needed by the public Worker. It has no report/read endpoint, only
 the event collector. D1 is accessible to the owner's Cloudflare account via the
 dashboard or authenticated CLI, not to website visitors. Never put an owner API
 token in `analytics-config.js`, GitHub Pages, a URL or a report.
 
-Before enabling:
+For future collector or catalog changes:
 
 - Check actual Free-plan state and the deployed Worker/D1 bindings.
 - Test a labeled test link from each product origin/path, and inspect the D1
@@ -129,12 +126,11 @@ Before enabling:
   configs and enable them only together with the current privacy notice below.
 - Deploy both sites and verify a real link event plus the private report.
 
-The online test remains pending until an owner account is available. No claim of
-active country collection is made by the current site privacy pages.
 
 ## Owner report/export
 
-The private Cloudflare D1 console can run `report.sql` directly. It selects the
+The [private Cloudflare D1 console](https://dash.cloudflare.com/9be103bd6e0f65c974d8754b9ef45cbb/workers/d1/databases/b218bc4c-c726-4e70-9eeb-968dbee37fae/console)
+can run `report.sql` directly after owner sign-in. It selects the
 last 30 UTC days by default; edit its date bounds for another period. For a local
 report through an authenticated Wrangler session:
 
@@ -179,7 +175,7 @@ Offline tests use Node's actual SQLite engine for the D1 schema/upsert and cover
 event rejection, no personal fields, unknown country, quota failure, unchanged
 direct-link behavior, browser request failures and GitHub discontinuities.
 
-## Privacy paragraph to apply only on activation
+## Website privacy wording
 
 Reading this site and downloading its files remain public; no email or account is
 required. When you activate a download link, a small anonymous request to Cloudflare
