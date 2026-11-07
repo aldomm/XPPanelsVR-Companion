@@ -1,76 +1,51 @@
-const { test } = require('node:test');
-const assert = require('node:assert/strict');
-const { summarize, loadStats, update } = require('../download-stats.js');
-const windows = 'XPPanelsVisionProCompanion-2.0.0-build.5-windows-x64-SELF-SIGNED.exe';
-const mac = 'XPPanelsVR-Companion-2.0-build3-preview.pkg';
-const quest = 'XPPanelsVR-Quest-0.2.0-beta.2-trim-pointers-code20018-release.apk';
-const asset = (id, count, name = windows) => ({ id, name, download_count: count, state: 'uploaded' });
-const release = (assets, overrides = {}) => ({ assets, draft: false, published_at: '2026-11-05T00:00:00Z', ...overrides });
-
-test('counts only product downloads and separates platforms across published releases', () => {
-  const result = summarize([
-    release([asset(1, 2), asset(2, 3, mac), asset(3, 5, quest), asset(4, 40, 'SHA256SUMS.txt'),
-      asset(5, 50, 'release.json'), asset(6, 60, 'unrelated.apk')], { prerelease: true }),
-    release([asset(7, 4)]), release([asset(8, 30)], { draft: true }),
-    release([asset(9, 30)], { published_at: null }),
-    release([{ ...asset(10, 50), state: 'new' }])
-  ]);
-  assert.deepEqual(result, { total: 9, windows: 6, mac: 3 });
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const {readFileSync}=require('node:fs');
+const path=require('node:path');
+const {describeAsset,validateAsset,createLoader,update}=require('../download-stats.js');
+const url='https://github.com/aldomm/XPPanelsVR-Quest/releases/download/v0.3.0-beta.1/XPPanelsQuestCompanion-0.3.0-beta.1-windows-x64-SELF-SIGNED.exe';
+const expected=describeAsset('712207900',url);
+const asset=count=>({id:expected.id,state:'uploaded',name:expected.name,browser_download_url:url,download_count:count});
+test('uses one immutable asset ID and its exact package URL, never release/platform sums',()=>{
+ assert.equal(expected.api,'https://api.github.com/repos/aldomm/XPPanelsVR-Quest/releases/assets/712207900');
+ assert.equal(validateAsset(asset(5),expected),5);assert.equal(validateAsset(asset(0),expected),0);
+ for(const data of [{id:712207901},{browser_download_url:url.replace('0.3.0','0.2.1')},{name:'another.exe'},{state:'new'}])assert.throws(()=>validateAsset({...asset(5),...data},expected));
 });
-test('zero is valid and duplicate asset IDs never inflate totals', () => {
-  assert.equal(summarize([release([asset(1, 0)])]).total, 0);
-  assert.equal(summarize([release([asset(1, 2)]), release([asset(1, 2)])]).total, 2);
+test('unknown or invalid counts never become zero',()=>{
+ for(const count of [undefined,null,-1,1.5,'5',Infinity,Number.MAX_SAFE_INTEGER+1])assert.throws(()=>validateAsset(asset(count),expected));
+ assert.throws(()=>validateAsset(null,expected));
 });
-test('invalid counts and overflow fail instead of producing plausible statistics', () => {
-  for (const value of [undefined, null, -1, 1.5, '12', Infinity]) {
-    assert.throws(() => summarize([release([asset(1, value)])]));
-  }
-  for (const value of [{}, [null], [release(null)], [release([null])]]) assert.throws(() => summarize(value));
-  assert.throws(() => summarize([release([asset(1, Number.MAX_SAFE_INTEGER), asset(2, 1)])]));
+test('rejects auxiliary files, other repositories and non-GitHub destinations',()=>{
+ for(const link of [url.replace('.exe','.cer'),url.replace('.exe','.txt'),url.replace('aldomm','other'),url.replace('github.com','example.com'),url+'?query=x',url+'#fragment'])assert.throws(()=>describeAsset(expected.id,link));
+ for(const id of [0,-1,'bad',1.5])assert.throws(()=>describeAsset(id,url));
 });
-test('loads all pages without credentials, referrer or cookie tracking', async () => {
-  let calls = 0;
-  const result = await loadStats(async (url, options) => {
-    calls++;
-    assert.ok(url.endsWith(`page=${calls}`));
-    assert.equal(options.credentials, 'omit');
-    assert.equal(options.referrerPolicy, 'no-referrer');
-    return { ok: true, json: async () => calls === 1
-      ? Array.from({ length: 100 }, (_, i) => release([asset(i + 1, 1)]))
-      : [release([asset(101, 3, mac)])] };
-  });
-  assert.equal(calls, 2);
-  assert.equal(result.total, 103);
-  assert.equal(result.mac, 3);
+test('repeated package actions share a request and use ordinary HTTP cache without credentials',async()=>{
+ let calls=0;
+ const load=createLoader(async(api,options)=>{calls++;assert.equal(api,expected.api);assert.equal(options.credentials,'omit');assert.equal(options.referrerPolicy,'no-referrer');assert.equal(options.cache,'default');assert.equal(options.headers.Authorization,undefined);return {ok:true,json:async()=>asset(1234)};});
+ const [one,two]=await Promise.all([load(expected.id,url),load(expected.id,url)]);
+ assert.equal(calls,1);assert.equal(one.count,1234);assert.equal(two.count,1234);
 });
-test('network/rate-limit/invalid responses fail cleanly', async () => {
-  await assert.rejects(loadStats(async () => { throw new Error('offline'); }));
-  await assert.rejects(loadStats(async () => ({ ok: false, status: 403 })));
-  await assert.rejects(loadStats(async () => ({ ok: true, json: async () => ({ message: 'error' }) })));
+test('rate limits, network failures and invalid data do not retry',async()=>{
+ for(const response of [()=>{throw Error('offline');},()=>({ok:false,status:403}),()=>({ok:false,status:429}),()=>({ok:true,json:async()=>({message:'bad'})})]){
+  let calls=0;const load=createLoader(async()=>{calls++;return response();});
+  await assert.rejects(load(expected.id,url));await assert.rejects(load(expected.id,url));assert.equal(calls,1);
+ }
 });
-test('pagination limit refuses a partial total', async () => {
-  await assert.rejects(loadStats(async () => ({ ok: true,
-    json: async () => Array.from({ length: 100 }, () => release([])) })), /partial/);
-});
-function root() {
-  const fields = {};
-  return { fields, querySelector: key => fields[key] ||= {},
-    setAttribute: (key, value) => fields[key] = value };
+function fixture(){
+ const field={attrs:{'data-download-asset':String(expected.id),'data-download-link':'package'},getAttribute(k){return this.attrs[k];},setAttribute(k,v){this.attrs[k]=v;}};
+ const link={href:url};return {field,link,querySelectorAll:()=>[field],getElementById:()=>link};
 }
-test('renders total, platform counts and checked timestamp', async () => {
-  const element = root();
-  await update(element, async () => ({ total: 1234, windows: 1200, mac: 34,
-    fetchedAt: '2026-11-05T06:00:00Z' }));
-  assert.equal(element.fields['[data-downloads="total"]'].textContent, '1,234');
-  assert.equal(element.fields['[data-downloads="windows"]'].textContent, '1,200');
-  assert.equal(element.fields['[data-downloads="mac"]'].textContent, '34');
-  assert.match(element.fields['[data-download-status]'].textContent, /UTC/);
-  assert.equal(element.fields['aria-busy'], 'false');
+test('renders lifetime counts and a truthful fallback without modifying the download',async()=>{
+ for(const count of [0,1,1234]){const root=fixture();await update(root,async()=>({count,checkedAt:'2026-11-07T04:00:00Z'}));assert.equal(root.field.textContent,`${count.toLocaleString('en-US')} ${count===1?'download':'downloads'} · GitHub`);assert.match(root.field.title,/Lifetime GitHub downloads of this file/);assert.equal(root.link.href,url);assert.equal(root.field.attrs['aria-busy'],'false');}
+ const root=fixture();await update(root,async()=>{throw Error('offline');});assert.equal(root.field.textContent,'Downloads unavailable · GitHub');assert.equal(root.link.href,url);assert.equal(root.field.attrs['aria-busy'],'false');
 });
-test('failure displays Unavailable rather than a misleading zero', async () => {
-  const element = root();
-  await update(element, async () => { throw new Error('offline'); });
-  assert.equal(element.fields['[data-downloads="total"]'].textContent, 'Unavailable');
-  assert.equal(element.fields['[data-downloads="mac"]'].textContent, 'Unavailable');
-  assert.equal(element.fields['aria-busy'], 'false');
+test('every primary package button has exactly one matching inline counter',()=>{
+ const html=readFileSync(path.join(__dirname,'../index.html'),'utf8');
+ const anchors=Array.from(html.matchAll(/<a\b([^>]+)>/g)).map(m=>Object.fromEntries(Array.from(m[1].matchAll(/([\w-]+)="([^"]*)"/g),a=>[a[1],a[2]])));
+ const counters=Array.from(html.matchAll(/<span class="download-counter"([^>]+)>/g)).map(m=>Object.fromEntries(Array.from(m[1].matchAll(/([\w-]+)="([^"]*)"/g),a=>[a[1],a[2]])));
+ const primary=anchors.filter(a=>a.class?.split(' ').includes('button')&&/github\.com\/.+\.(exe|pkg|apk)$/.test(a.href));
+ assert.ok(primary.length>=2);assert.equal(counters.length,primary.length);
+ for(const a of primary){const fields=counters.filter(c=>c['data-download-link']===a.id);assert.equal(fields.length,1);assert.equal(a['aria-describedby'],fields[0].id);assert.ok(describeAsset(fields[0]['data-download-asset'],a.href));}
+ assert.match(html,/download-stats\.js\?v=20261107-file-counts/);
+ assert.match(html,/download-analytics\.js/);assert.match(html,/page-views\.js/);
 });

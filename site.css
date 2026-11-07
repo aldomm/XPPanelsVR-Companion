@@ -46,3 +46,6 @@
 .hero .hero-note{margin:18px auto 0;text-align:center}
 .edition-note{max-width:1184px;margin:0 auto;padding:18px 24px;text-align:center;font-size:13px;line-height:1.6;color:#525e63;background:#fff}
 .edition-note a{color:#176c70;text-underline-offset:3px}
+
+/* Lifetime GitHub count for the individual package, beneath its compatibility notes. */
+.download-counter{display:block;margin-top:6px;min-height:1.7em;font-size:12px;line-height:1.7;font-weight:400;color:var(--muted);font-variant-numeric:tabular-nums}
