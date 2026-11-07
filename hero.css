@@ -6,6 +6,7 @@
 .hero .app-store-note{max-width:850px;margin:18px auto 0;font-size:13px;line-height:1.6;color:#bccdcd}
 .hero .platform-actions,.hero .actions{margin:0 auto;gap:12px}
 .hero .hero-note{margin-top:15px}
+.hero .developer-credit{max-width:760px;margin:6px auto 0;font-size:12px;line-height:1.9;font-weight:400;color:#b4bfc3;text-align:center}
 @media(max-width:600px){
  .hero{padding-top:195px;padding-bottom:28px;background-size:270px;background-position:center -30px}
  .hero h1{font-size:29px;line-height:1.16;max-width:350px;margin-bottom:22px}
@@ -13,4 +14,5 @@
  .hero .hero-explanation{font-size:15px;line-height:1.6;max-width:345px;margin-bottom:11px}
  .hero .hero-tagline{font-size:12px;margin-bottom:23px}
  .hero .app-store-note{font-size:12px;max-width:340px;margin-top:18px}
+ .hero .developer-credit{font-size:10px;line-height:1.7}
 }
